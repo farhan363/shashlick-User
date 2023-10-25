@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { Auth, DataStore } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
 // import { User } from "../../models";
 // import { useAuthContext } from "../../contexts/AuthContext";
 // import { useNavigation } from "@react-navigation/native";
@@ -85,12 +85,12 @@ const Profile = () => {
         style={styles.input}
       />
       <Button onPress={onSave} title="Save" />
-      {/* <Text
+      <Text
         onPress={() => Auth.signOut()}
         style={{ textAlign: "center", color: "red", margin: 10 }}
       >
         Sign out
-      </Text> */}
+      </Text>
     </SafeAreaView>
   );
 };
