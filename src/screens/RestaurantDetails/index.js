@@ -1,29 +1,36 @@
-import { StyleSheet, View, Text, Image ,FlatList } from 'react-native';
-import restaurants from '../../../assets/data/restaurants.json';
+import { StyleSheet, View, Text, Image, FlatList, ActivityIndicator } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DishListItem from '../../components/DishListItem';
 import Header from './Header';
 import styles from './styles';
-import { useRoute ,useNavigation } from '@react-navigation/native';
-const restaurant = restaurants[0];
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+import { DataStore } from 'aws-amplify';
+import { Restaurant } from '../../models'
 const RestaurantDetailsPage = () => {
+    const [restaurants, setRestaurants] = useState(null);
     const route = useRoute();
     const navigation = useNavigation();
     const id = route.params.id;
-    console.warn(id);
+    useEffect(() => {
+        DataStore.query(Restaurant, id).then(setRestaurants);
+    }, []);
+    if (!restaurant) {
+        return (<ActivityIndicator size={'large'} color='red' />)
+    }
     return (
         <View style={styles.page}>
             <FlatList
-            ListHeaderComponent ={() =><Header restaurant = {restaurant}/>}
-            data={restaurant.dishes}
-            renderItem={({ item }) => <DishListItem dish={item} />}
-            keyExtractor={(item) =>item.name}
+                ListHeaderComponent={() => <Header restaurant={restaurant} />}
+                data={restaurant.dishes}
+                renderItem={({ item }) => <DishListItem dish={item} />}
+                keyExtractor={(item) => item.name}
             />
-              <Ionicons onPress={() =>navigation.goBack()}
-            name='arrow-back-circle' 
-            size={45} 
-            color='white' 
-            style={styles.IconContainer}
+            <Ionicons onPress={() => navigation.goBack()}
+                name='arrow-back-circle'
+                size={45}
+                color='white'
+                style={styles.IconContainer}
             />
         </View>
     );

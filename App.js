@@ -2,12 +2,13 @@ import { StyleSheet, View,Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from './src/navigation';
 import { Amplify } from 'aws-amplify';
+import '@azure/core-asynciterator-polyfill'
 import { withAuthenticator } from 'aws-amplify-react-native';
 import config from './src/aws-exports'
 Amplify.configure({
   ...config,
   Analytics:{
-    disabled:true
+    disabled:true,
   },
 });
  function App() {

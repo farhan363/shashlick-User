@@ -12,35 +12,63 @@
       "AmplifyAppId": "d1z1vq8ifut0hd"
     }
   },
+  "api": {
+    "shashlickUser": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 365,
+              "apiKeyExpirationDate": "2024-11-01T16:48:15.642Z",
+              "description": "api key description"
+            }
+          }
+        },
+        "GraphQLAPIIdOutput": "tkem2wv3fvdcvghf64ru5uztgq",
+        "GraphQLAPIEndpointOutput": "https://msb2pqqghbbo5gf4vegfvqb6ia.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-jt7ghfei5zcvbjmvuerm5jrofq"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "lastPushTimeStamp": "2023-11-02T16:58:15.166Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-shashlickuser-staging-153544-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apishashlickUser"
+      },
+      "lastPushDirHash": "XLXqxk6E5TjBfeZzTKPyP8qxTj8="
+    }
+  },
   "auth": {
     "shashlickUser": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
       "customAuth": false,
+      "dependsOn": [],
       "frontendAuthConfig": {
-        "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
         ],
-        "signupAttributes": [],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 6,
           "passwordPolicyCharacters": []
         },
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
+        "signupAttributes": [],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
         ],
         "verificationMechanisms": [
           "EMAIL"
         ]
       },
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-shashlickuser-staging-153544-deployment/amplify-cfn-templates/auth/shashlickUser-cloudformation-template.json",
-        "logicalId": "authshashlickUser"
-      },
-      "lastPushTimeStamp": "2023-10-22T16:00:31.877Z",
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
       "output": {
         "UserPoolId": "us-east-1_OZT0rjaqw",
         "AppClientIDWeb": "23f6d7ngmsrv5to0ic0gtftdvj",
@@ -50,7 +78,11 @@
         "IdentityPoolName": "testAuthIdentityPool__staging",
         "UserPoolName": "shashlickUser"
       },
-      "lastPushDirHash": "i2k1X9bZXUHENQmnTUF4t13L4Es="
+      "lastPushTimeStamp": "2023-11-02T16:57:59.280Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-shashlickuser-staging-153544-deployment/amplify-cfn-templates/auth/shashlickUser-cloudformation-template.json",
+        "logicalId": "authshashlickUser"
+      }
     }
   }
 }
