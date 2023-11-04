@@ -2,5 +2,5 @@
   "AppSyncApiName": "shashlickUser",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "AuthModeLastUpdated": "2023-11-02T16:48:35.243Z"
+  "AuthModeLastUpdated": "2023-11-03T16:26:29.616Z"
 }

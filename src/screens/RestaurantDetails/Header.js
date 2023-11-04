@@ -7,7 +7,7 @@ const RestaurantHeader = ({restaurant}) => {
             <View style={styles.container}>
                 <Text style={styles.title}>{restaurant.name}</Text>
                 <Text style={styles.subtitle}>
-                    $ ${restaurant.deliveryFee} &#8226;
+                    $ ${restaurant.deliveryFee.toFixed(1)} &#8226;
                     {restaurant.minDeliveryTime}-{restaurant.maxDeliveryTime} </Text>
                     <Text style={styles.menutitle}>Menu</Text>
             </View>
