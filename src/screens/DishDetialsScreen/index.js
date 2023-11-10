@@ -1,22 +1,39 @@
-import { useState } from 'react';
-import { StyleSheet, View, Text ,Pressable } from 'react-native';
+import { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Pressable, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import restaurants from '../../../assets/data/restaurants.json'
-import { useNavigation } from '@react-navigation/native';
-const dish = restaurants[0].dishes[0];
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { DataStore } from 'aws-amplify';
+import { Dish } from '../../models';
+
 const DishDetailsScreen = () => {
+    const [dish, setDishes] = useState(null);
     const [quantity, setquantity] = useState(1);
-    const navigation =useNavigation()
+
+    const navigation = useNavigation();
+
+    const route = useRoute();
+    const id = route.params.id;
+
+    useEffect(() => {
+       if(id){
+        DataStore.query(Dish, id).then(setDishes);
+       }
+    },
+        [])
     const onMinus = () => {
-        if (quantity > 1){
+        if (quantity > 1) {
             setquantity(quantity - 1)
         }
     };
     const onPlus = () => {
         setquantity(quantity + 1)
     };
-    const gettotal =() =>{
-        return(dish.price * quantity).toFixed(2);
+    const gettotal = () => {
+        return (dish.price * quantity).toFixed(2);
+    }
+    if (!dish) {
+        return <ActivityIndicator size="large" color="red" />
     }
     return (
         <View style={styles.page}>
@@ -30,7 +47,7 @@ const DishDetailsScreen = () => {
             </View>
             <Pressable onPress={() => navigation.navigate("Basket")} style={styles.button}>
                 <Text style={styles.buttontext}>Add {quantity} to basket &#8226;  $ {gettotal()}</Text>
-                </Pressable>
+            </Pressable>
         </View>
     )
 }
@@ -64,16 +81,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center"
     },
-    button:{
-backgroundColor:"black",
-marginTop:"auto",
-padding:20,
-alignItems:"center"
+    button: {
+        backgroundColor: "black",
+        marginTop: "auto",
+        padding: 20,
+        alignItems: "center"
     },
-    buttontext:{
-fontWeight:"600",
-fontSize:18,
-color:'white'
+    buttontext: {
+        fontWeight: "600",
+        fontSize: 18,
+        color: 'white'
     }
 });
 export default DishDetailsScreen;

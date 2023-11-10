@@ -5,6 +5,7 @@ import { Amplify } from 'aws-amplify';
 import '@azure/core-asynciterator-polyfill'
 import { withAuthenticator } from 'aws-amplify-react-native';
 import config from './src/aws-exports'
+import AuthContextProvider from './src/context/Authcontext';
 Amplify.configure({
   ...config,
   Analytics:{
@@ -14,7 +15,9 @@ Amplify.configure({
  function App() {
   return (
     <NavigationContainer>
+     <AuthContextProvider>
      <RootNavigator/>
+     </AuthContextProvider>
     </NavigationContainer>
   );
 }

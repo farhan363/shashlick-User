@@ -2,60 +2,62 @@ import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Auth, DataStore } from "aws-amplify";
-// import { User } from "../../models";
-// import { useAuthContext } from "../../contexts/AuthContext";
-// import { useNavigation } from "@react-navigation/native";
+import { User } from "../../models";
+import { useAuthContext } from "../../context/Authcontext";
+import '@azure/core-asynciterator-polyfill';
+import { useNavigation } from "@react-navigation/native";
 
 const Profile = () => {
-  // const { dbUser } = useAuthContext();
 
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [lat, setLat] = useState("0");
-  const [lng, setLng] = useState("0");
+  const { dbUser } = useAuthContext();
 
-  // const { sub, setDbUser } = useAuthContext();
+  const [name, setName] = useState(dbUser?.name || "");
+  const [address, setAddress] = useState(dbUser?.address || "");
+  const [lat, setLat] = useState(dbUser?.lat + "" || "0");
+  const [lng, setLng] = useState(dbUser?.lng + "" || "0");
 
-  // const navigation = useNavigation();
 
-  const onSave = () => {};
-  //   if (dbUser) {
-  //     await updateUser();
-  //   } else {
-  //     await createUser();
-  //   }
-  //   navigation.goBack();
-  // };
+  const { sub, setdbUser } = useAuthContext();
 
-  // const updateUser = async () => {
-  //   const user = await DataStore.save(
-  //     User.copyOf(dbUser, (updated) => {
-  //       updated.name = name;
-  //       updated.address = address;
-  //       updated.lat = parseFloat(lat);
-  //       updated.lng = parseFloat(lng);
-  //     })
-  //   );
-  //   setDbUser(user);
-  // };
+const navigation = useNavigation();
 
-  // const createUser = async () => {
-  //   try {
-  //     const user = await DataStore.save(
-  //       new User({
-  //         name,
-  //         address,
-  //         lat: parseFloat(lat),
-  //         lng: parseFloat(lng),
-  //         sub,
-  //       })
-  //     );
-  //     setDbUser(user);
-  //   } catch (e) {
-  //     Alert.alert("Error", e.message);
-  //   }
-  // };
 
+  const onSave = async () => {
+    if (dbUser) {
+      await updateUser();
+      navigation.goBack();
+    } else {
+      await createUser();
+    }
+    
+  };
+  const updateUser = async () => {
+    const user = await DataStore.save(
+      User.copyOf(dbUser , (updated) => {
+        updated.name = name;
+        updated.address = address;
+        updated.lat = parseFloat(lat);
+        updated.lng = parseFloat(lng);
+      })
+    );
+    setdbUser(user);
+  };
+  const createUser = async () => {
+    try {
+      const user = await DataStore.save(
+        new User({
+          name,
+          address,
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
+          sub,
+        })
+      );
+      setdbUser(user);
+    } catch (e) {
+      Alert.alert("Error", e.message);
+    }
+  };
   return (
     <SafeAreaView>
       <Text style={styles.title}>Profile</Text>
@@ -83,8 +85,9 @@ const Profile = () => {
         onChangeText={setLng}
         placeholder="Longitude"
         style={styles.input}
+        keyboardType="numeric"
       />
-      <Button onPress={onSave} title="Save" />
+      <Button onPress={onSave} title="Save" backgroundColor="blue"/>
       <Text
         onPress={() => Auth.signOut()}
         style={{ textAlign: "center", color: "red", margin: 10 }}

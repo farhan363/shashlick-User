@@ -8,19 +8,25 @@ import Basket from '../screens/Basket';
 import OrderScreen from '..//screens/OrderScreen';
 import ProfileScreen from '..//screens/ProfileScreen';
 import OrderDetails from '../screens/OrderDetails';
+import { useAuthContext } from "../context/Authcontext";
 import { Foundation, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 const Stack = createNativeStackNavigator();
 const RootNavigator = () => {
+    const { dbUser } = useAuthContext();
     return (
-        <Stack.Navigator screenOptions={{headerShown:false}}>
-            <Stack.Screen name="HomeTabs" component={HomeTabs} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            {dbUser ? (
+                <Stack.Screen name="HomeTabs" component={HomeTabs} />
+            ) : (
+                <Stack.Screen name="Profile" component={ProfileScreen} />
+            )}
         </Stack.Navigator>
     );
 };
 const Tab = createBottomTabNavigator();
 const HomeTabs = () => {
     return (
-        <Tab.Navigator screenOptions={{headerShown:false}} barStyle={{ backgroundColor: "white" }}>
+        <Tab.Navigator screenOptions={{ headerShown: false }} barStyle={{ backgroundColor: "white" }}>
             <Tab.Screen name="Home" component={HomeStackNavigator}
                 options={{
                     tabBarIcon: ({ color }) =>
@@ -45,7 +51,7 @@ const HomeStackNavigator = () => {
     return (
         <HOmeStack.Navigator>
             <HOmeStack.Screen name="Restaurants" component={HomeScreen} />
-            <HOmeStack.Screen name="Restaurant" component={RestaurantDetailsPage} options={{headerShown:false}} />
+            <HOmeStack.Screen name="Restaurant" component={RestaurantDetailsPage} options={{ headerShown: false }} />
             <HOmeStack.Screen name="Dish" component={DishDetailsScreen} />
             <HOmeStack.Screen name="Basket" component={Basket} />
         </HOmeStack.Navigator>
