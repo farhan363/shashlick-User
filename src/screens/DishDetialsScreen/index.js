@@ -4,7 +4,9 @@ import { AntDesign } from '@expo/vector-icons';
 import restaurants from '../../../assets/data/restaurants.json'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { DataStore } from 'aws-amplify';
+import '@azure/core-asynciterator-polyfill'
 import { Dish } from '../../models';
+import { useBasketContext } from '../../context/BasketContext';
 
 const DishDetailsScreen = () => {
     const [dish, setDishes] = useState(null);
@@ -14,13 +16,17 @@ const DishDetailsScreen = () => {
 
     const route = useRoute();
     const id = route.params.id;
+    const { AddDishToBasket } = useBasketContext();
 
     useEffect(() => {
-       if(id){
-        DataStore.query(Dish, id).then(setDishes);
-       }
-    },
-        [])
+        if (id) {
+            DataStore.query(Dish, id).then(setDishes);
+        }
+    }, [id])
+    const onAddToBasket = async () => {
+     await AddDishToBasket(dish , quantity);
+     navigation.goBack();
+    }
     const onMinus = () => {
         if (quantity > 1) {
             setquantity(quantity - 1)
@@ -45,7 +51,8 @@ const DishDetailsScreen = () => {
                 <Text style={styles.quantity}>{quantity}</Text>
                 <AntDesign name='pluscircleo' size={60} color={"black"} onPress={onPlus} />
             </View>
-            <Pressable onPress={() => navigation.navigate("Basket")} style={styles.button}>
+            <Pressable onPress={onAddToBasket}
+                style={styles.button}>
                 <Text style={styles.buttontext}>Add {quantity} to basket &#8226;  $ {gettotal()}</Text>
             </Pressable>
         </View>
