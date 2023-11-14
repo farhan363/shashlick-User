@@ -16,7 +16,7 @@ const DishDetailsScreen = () => {
 
     const route = useRoute();
     const id = route.params.id;
-    const { AddDishToBasket } = useBasketContext();
+    const { addDishToBasket } = useBasketContext();
 
     useEffect(() => {
         if (id) {
@@ -24,7 +24,7 @@ const DishDetailsScreen = () => {
         }
     }, [id])
     const onAddToBasket = async () => {
-     await AddDishToBasket(dish , quantity);
+     await addDishToBasket(dish , quantity);
      navigation.goBack();
     }
     const onMinus = () => {

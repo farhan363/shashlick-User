@@ -17,18 +17,20 @@ const RestaurantDetailsPage = () => {
     const navigation = useNavigation();
 
     const id = route.params.id;
-    const { setRestaurant: setBasketRestaurant } = useBasketContext();
+    const {setBasketRestaurant} = useBasketContext();
     useEffect(() => {
         if (!id) {
             return;
         }
         setBasketRestaurant(null);
+
         DataStore.query(Restaurant, id).then(setRestaurant);
         DataStore.query(Dish, (dish) => dish.restaurantID.eq(id)).then(setDishes);
     }, [id]);
-    useEffect(()=>{
+    useEffect(() => {
         setBasketRestaurant(restaurant);
-    },[restaurant])
+    }, [restaurant]);
+
     if (!restaurant) {
         return (<ActivityIndicator size={'large'} color='red' />)
     }

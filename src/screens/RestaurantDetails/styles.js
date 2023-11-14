@@ -28,5 +28,17 @@ export default StyleSheet.create({
         marginTop:20,
         fontSize:16,
         letterSpacing:0.6,
+    },
+    button: {
+        backgroundColor: "black",
+        marginTop: "auto",
+        padding: 20,
+        alignItems: "center",
+        margin:10,
+    },
+    buttontext: {
+        fontWeight: "600",
+        fontSize: 18,
+        color: 'white'
     }
 });
