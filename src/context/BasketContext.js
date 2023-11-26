@@ -12,15 +12,46 @@ const BasketContextProvider = ({ children }) => {
     const [basketRestaurant, setBasketRestaurant] = useState(null);
     const [basket, setBasket] = useState(null);
     const [basketDishes, setBasketDishes] = useState([]);
+
+        useEffect(() => {
+            if (dbUser && basketRestaurant) {
+                DataStore.query(Basket)
+                    .then(baskets => {
+                        const filteredBaskets = baskets.filter(basket =>
+                            basket.restaurantID === basketRestaurant.id &&
+                            basket.userID === dbUser.id
+                        );
+                        if (filteredBaskets.length > 0) {
+                            setBasket(filteredBaskets[0]);
+                        } else {
+                            // Handle case when no basket is found for this user and restaurant
+                            setBasket(null); // Set an appropriate value, like null or an empty object/array
+                        }
+                    }).catch(error => {
+                        // Handle any potential query errors
+                        console.error('Error fetching basket:', error);
+                    });
+            }
+        }, [dbUser, basketRestaurant]);
+        
+    
+    
+
     useEffect(() => {
-        DataStore.query(Basket, b => b.restaurantID.eq(basketRestaurant.id).userID.eq(dbUser.id)
-        ).then(baskets => setBasket(baskets[0]));
-    }, [dbUser, basketRestaurant])
+        if (basket) {
+            DataStore.query(BasketDish, bd => bd.basketID.eq(basket.id)).then(
+                setBasketDishes
+            );
+        }
+    }, [basket]);
     const addDishToBasket = async (dish, quantity) => {
 
         let theBasket = basket || await createNewBasket();
 
-        DataStore.save(new BasketDish ({quantity ,Dish:dish ,basketID:theBasket.id}))
+        const newDish = await DataStore.save(
+            new BasketDish({ quantity, Dish: dish, basketID: theBasket.id })
+        );
+        setBasketDishes([...basketDishes, newDish])
     };
     const createNewBasket = async () => {
         const newBasket = await DataStore.save(new Basket({ userID: dbUser.id, restaurantID: basketRestaurant.id })
@@ -29,7 +60,7 @@ const BasketContextProvider = ({ children }) => {
         return newBasket;
     };
     return (
-        <BasketContext.Provider value={{ addDishToBasket, setBasketRestaurant }}>
+        <BasketContext.Provider value={{ addDishToBasket, setBasketRestaurant, basketRestaurant ,basket, basketDishes }}>
             {children}
         </BasketContext.Provider>
     )

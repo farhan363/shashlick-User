@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import restaurants from '../../../assets/data/restaurants.json'
+import '@azure/core-asynciterator-polyfill';
 import BasketDishItem from '../../components/BasketDishItem';
-const restaurant = restaurants[0];
+import { useBasketContext } from '../../context/BasketContext';
 const Basket = () => {
+    const { basketRestaurant ,basketDishes} = useBasketContext();
     return (
         <View style={styles.page}>
-            <Text style={styles.name}>{restaurant.name}</Text>
+            <Text style={styles.name}>{basketRestaurant.name}</Text>
             <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 20 }}>Your Items</Text>
+
             <FlatList
-                data={restaurant.dishes}
+                data={basketDishes}
                 renderItem={({ item }) => <BasketDishItem basketDish={item} />} />
             <View style={styles.separator} />
             <View style={styles.button}>

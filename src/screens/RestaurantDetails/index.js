@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image, FlatList, ActivityIndicator, Pressable } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DishListItem from '../../components/DishListItem';
 import Header from './Header';
@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { DataStore } from 'aws-amplify';
 import { Restaurant, Dish } from '../../models'
 import { useBasketContext } from '../../context/BasketContext';
+import '@azure/core-asynciterator-polyfill';
 
 const RestaurantDetailsPage = () => {
     const [restaurant, setRestaurant] = useState(null);
@@ -17,7 +18,7 @@ const RestaurantDetailsPage = () => {
     const navigation = useNavigation();
 
     const id = route.params.id;
-    const {setBasketRestaurant} = useBasketContext();
+    const { setBasketRestaurant, basket , basketDishes} = useBasketContext();
     useEffect(() => {
         if (!id) {
             return;
@@ -30,10 +31,10 @@ const RestaurantDetailsPage = () => {
     useEffect(() => {
         setBasketRestaurant(restaurant);
     }, [restaurant]);
-
     if (!restaurant) {
         return (<ActivityIndicator size={'large'} color='red' />)
     }
+    console.log("Basket value:", basket);
     return (
         <View style={styles.page}>
             <FlatList
@@ -48,6 +49,15 @@ const RestaurantDetailsPage = () => {
                 color='white'
                 style={styles.IconContainer}
             />
+            {basket && (
+                <Pressable onPress={() => navigation.navigate("Basket")}
+                    style={styles.button}>
+                    <Text style={styles.buttontext}>
+                        Open Basket({basketDishes.length})
+                    </Text>
+                </Pressable>
+
+            )}
         </View>
     );
 };
