@@ -24,13 +24,9 @@ const BasketContextProvider = ({ children }) => {
                         if (filteredBaskets.length > 0) {
                             setBasket(filteredBaskets[0]);
                         } else {
-                            // Handle case when no basket is found for this user and restaurant
-                            setBasket(null); // Set an appropriate value, like null or an empty object/array
+                            setBasket(null);
                         }
-                    }).catch(error => {
-                        // Handle any potential query errors
-                        console.error('Error fetching basket:', error);
-                    });
+                    })
             }
         }, [dbUser, basketRestaurant]);
         

@@ -34,7 +34,6 @@ const RestaurantDetailsPage = () => {
     if (!restaurant) {
         return (<ActivityIndicator size={'large'} color='red' />)
     }
-    console.log("Basket value:", basket);
     return (
         <View style={styles.page}>
             <FlatList

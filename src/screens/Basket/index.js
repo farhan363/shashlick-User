@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
-import '@azure/core-asynciterator-polyfill';
 import BasketDishItem from '../../components/BasketDishItem';
 import { useBasketContext } from '../../context/BasketContext';
 const Basket = () => {
