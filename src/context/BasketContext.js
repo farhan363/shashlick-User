@@ -12,23 +12,53 @@ const BasketContextProvider = ({ children }) => {
     const [basketRestaurant, setBasketRestaurant] = useState(null);
     const [basket, setBasket] = useState(null);
     const [basketDishes, setBasketDishes] = useState([]);
+    const totalPrice = basketDishes.reduce((sum, basketDish) => {
+        if (
+            basketDish &&
+            basketDish.Dish &&
+            basketDish.Dish._j &&
+            typeof basketDish.Dish._j.price === 'number' &&
+            basketDish.Dish._j.price > 0 &&
+            typeof basketDish.quantity === 'number' &&
+            basketDish.quantity > 0
+        ) {
+            
+            const itemPrice = basketDish.quantity * basketDish.Dish._j.price;
+            
+            return sum + itemPrice;
+        } else {
+            return sum;
+        }
+    }, basketRestaurant?.deliveryFee || 0);
+    
+    const [currentRestaurantBasket, setCurrentRestaurantBasket] = useState(null);
 
-        useEffect(() => {
-            if (dbUser && basketRestaurant) {
-                DataStore.query(Basket)
-                    .then(baskets => {
-                        const filteredBaskets = baskets.filter(basket =>
-                            basket.restaurantID === basketRestaurant.id &&
-                            basket.userID === dbUser.id
-                        );
-                        if (filteredBaskets.length > 0) {
-                            setBasket(filteredBaskets[0]);
-                        } else {
-                            setBasket(null);
-                        }
-                    })
-            }
-        }, [dbUser, basketRestaurant]);
+    // Function to add items to the current restaurant's basket
+    const addToBasket = (item) => {
+        if (!currentRestaurantBasket) {
+            // If no basket exists for the current restaurant, create a new basket
+            const newBasket = {
+                restaurantID: restaurant.id, // Assuming restaurant.id is the restaurant's ID
+                items: [item],
+            };
+            setCurrentRestaurantBasket(newBasket);
+        } else {
+            // If a basket exists for the current restaurant, add items to it
+            const updatedBasket = {
+                ...currentRestaurantBasket,
+                items: [...currentRestaurantBasket.items, item],
+            };
+            setCurrentRestaurantBasket(updatedBasket);
+        }
+    };
+    
+    // Function to submit the basket to the database or perform further actions
+    const submitBasket = () => {
+        // Here, you can submit the currentRestaurantBasket to the database or perform other actions
+        // Reset the currentRestaurantBasket state once submitted
+        setCurrentRestaurantBasket(null);
+    };
+    
         
     
     
@@ -56,7 +86,7 @@ const BasketContextProvider = ({ children }) => {
         return newBasket;
     };
     return (
-        <BasketContext.Provider value={{ addDishToBasket, setBasketRestaurant, basketRestaurant ,basket, basketDishes }}>
+        <BasketContext.Provider value={{ addDishToBasket, setBasketRestaurant, basketRestaurant ,basket, basketDishes , totalPrice}}>
             {children}
         </BasketContext.Provider>
     )

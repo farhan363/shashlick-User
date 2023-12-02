@@ -1,7 +1,5 @@
 import { StyleSheet , View ,Text} from 'react-native';
 const BasketDishItem = ({ basketDish }) => {
-    
-    console.log(basketDish.Dish);
     return (
         <View style={styles.row}>
             <View style={styles.quantitycontainer}>

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, FlatList } from 'react-native';
 import BasketDishItem from '../../components/BasketDishItem';
 import { useBasketContext } from '../../context/BasketContext';
 const Basket = () => {
-    const { basketRestaurant ,basketDishes} = useBasketContext();
+    const { basketRestaurant ,basketDishes , totalPrice} = useBasketContext();
     return (
         <View style={styles.page}>
             <Text style={styles.name}>{basketRestaurant.name}</Text>
@@ -14,7 +14,7 @@ const Basket = () => {
                 renderItem={({ item }) => <BasketDishItem basketDish={item} />} />
             <View style={styles.separator} />
             <View style={styles.button}>
-                <Text style={styles.buttontext}>Create Order</Text></View>
+                <Text style={styles.buttontext}>Create Order &#8226; ${totalPrice.toFixed(2)}</Text></View>
         </View>
     );
 };
