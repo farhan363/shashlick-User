@@ -91,11 +91,9 @@ type EagerBasketDish = {
   };
   readonly id: string;
   readonly quantity: number;
-  readonly Dish?: Dish | null;
   readonly basketID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly basketDishDishId?: string | null;
 }
 
 type LazyBasketDish = {
@@ -105,11 +103,9 @@ type LazyBasketDish = {
   };
   readonly id: string;
   readonly quantity: number;
-  readonly Dish: AsyncItem<Dish | undefined>;
   readonly basketID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
-  readonly basketDishDishId?: string | null;
 }
 
 export declare type BasketDish = LazyLoading extends LazyLoadingDisabled ? EagerBasketDish : LazyBasketDish
@@ -201,8 +197,10 @@ type EagerDish = {
   readonly descreption?: string | null;
   readonly price: number;
   readonly restaurantID: string;
+  readonly BasketDish?: BasketDish | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly dishBasketDishId?: string | null;
 }
 
 type LazyDish = {
@@ -216,8 +214,10 @@ type LazyDish = {
   readonly descreption?: string | null;
   readonly price: number;
   readonly restaurantID: string;
+  readonly BasketDish: AsyncItem<BasketDish | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly dishBasketDishId?: string | null;
 }
 
 export declare type Dish = LazyLoading extends LazyLoadingDisabled ? EagerDish : LazyDish

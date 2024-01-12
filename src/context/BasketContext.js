@@ -14,22 +14,17 @@ const BasketContextProvider = ({ children }) => {
     const [basketDishes, setBasketDishes] = useState([]);
     const totalPrice = basketDishes.reduce((sum, basketDish) => {
         if (
-            basketDish &&
-            basketDish.Dish &&
-            basketDish.Dish._j &&
-            typeof basketDish.Dish._j.price === 'number' &&
-            typeof basketDish.quantity === 'number'
+          basketDish &&
+          basketDish.Dish &&
+          basketDish.Dish.price && // Updated access to price property
+          typeof basketDish.Dish.price === 'number' && // Check for price as a number
+          typeof basketDish.quantity === 'number'
         ) {
-            return sum + basketDish.quantity * basketDish.Dish._j.price;
+          return sum + basketDish.quantity * basketDish.Dish.price; // Updated price access
         } else {
-            return sum;
+          return sum;
         }
-    }, basketRestaurant?.deliveryFee || 0);
-    
-    
-    console.log('Total Price:', totalPrice);
-    
-    
+      }, basketRestaurant?.deliveryFee || 0);
         useEffect(() => {
             if (dbUser && basketRestaurant) {
                 DataStore.query(Basket)

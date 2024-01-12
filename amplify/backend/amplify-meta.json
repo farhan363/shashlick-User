@@ -36,12 +36,12 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "AppSync",
-      "lastPushTimeStamp": "2023-11-14T09:30:55.752Z",
+      "lastPushTimeStamp": "2023-12-25T08:24:36.332Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-shashlickuser-staging-153544-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apishashlickUser"
       },
-      "lastPushDirHash": "rc6rOClnZy3mrHKNEVaUBCWdnLY="
+      "lastPushDirHash": "Wg/a+ok7m1tZOj3LgLZxmunEUyo="
     }
   },
   "auth": {
@@ -77,7 +77,7 @@
         "IdentityPoolName": "testAuthIdentityPool__staging",
         "UserPoolName": "shashlickUser"
       },
-      "lastPushTimeStamp": "2023-11-14T09:30:55.779Z",
+      "lastPushTimeStamp": "2023-12-25T08:24:36.381Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-shashlickuser-staging-153544-deployment/amplify-cfn-templates/auth/shashlickUser-cloudformation-template.json",
         "logicalId": "authshashlickUser"

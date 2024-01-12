@@ -1,18 +1,24 @@
 import { StyleSheet, View, Text } from 'react-native';
 const BasketDishItem = ({ basketDish }) => {
+    console.log('Basket Dish:', basketDish);
     return (
         <View style={styles.row}>
             <View style={styles.quantitycontainer}>
                 <Text>{basketDish.quantity}</Text>
             </View>
             <Text style={{ fontWeight: "600" }}>
-                {basketDish.Dish._j && basketDish.Dish._j.name ? basketDish.Dish._j.name : 'Name Unavailable'}
+                {basketDish && basketDish.Dish && basketDish.Dish.name
+                    ? basketDish.Dish.name
+                    : 'Name Unavailable'
+                }
             </Text>
 
             <Text style={{ marginLeft: "auto" }}>
-                {basketDish.Dish._j && typeof basketDish.Dish._j.price === 'number'
-                    ? `$${basketDish.Dish._j.price}`
-                    : 'Price Unavailable'}
+                {basketDish && basketDish.Dish && typeof basketDish.Dish.price === 'number'
+                    ? `$${basketDish.Dish.price}`
+                    : 'Price Unavailable'
+                }
+
             </Text>
 
         </View>

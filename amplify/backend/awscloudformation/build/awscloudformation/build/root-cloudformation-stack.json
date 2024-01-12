@@ -167,7 +167,7 @@
             "Ref": "UnauthRoleName"
           },
           "S3DeploymentBucket": "amplify-shashlickuser-staging-153544-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/c4c3d84e2bda496e124d5188c8f1096be5fae5cd",
+          "S3DeploymentRootKey": "amplify-appsync-files/d9113cdb1021f2557ecfa824f33584766bc2a52c",
           "env": "staging"
         }
       }
